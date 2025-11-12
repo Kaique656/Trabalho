@@ -1,4 +1,4 @@
-package midias;
+package model;
 
 public class Musica extends Pasta {
 	

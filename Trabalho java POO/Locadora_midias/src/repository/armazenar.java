@@ -1,4 +1,4 @@
-package Armazenar;
+package repository;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,14 +19,14 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import midias.*;
+import model.*;
 
-public class Armazenar {
+public class armazenar {
 	
 	List<Pasta> pasta;
 	Pasta p;
 	
-	public Armazenar () {
+	public armazenar () {
 		pasta = new ArrayList<Pasta>();
 	}
 	

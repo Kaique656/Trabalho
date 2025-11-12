@@ -4,17 +4,15 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import Armazenar.Armazenar;
+import model.*;
+import repository.*;
 
-import midias.*;
-import Armazenar.*;
-
-public class Main {
+public class main {
 	
 	
 	private Armazenar a  = new Armazenar();
 	
-	public Main() throws IOException {
+	public main() throws IOException {
 		
 		boolean continuar =true;
 		
@@ -103,6 +101,6 @@ public class Main {
 }
 	
 	public static void main(String[]args) throws IOException {
-		new Main();
+		new main();
 	}
 }

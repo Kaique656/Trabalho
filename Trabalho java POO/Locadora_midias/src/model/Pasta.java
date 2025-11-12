@@ -1,4 +1,4 @@
-package midias;
+package model;
 import java.io.*;
 
 public abstract class Pasta {
