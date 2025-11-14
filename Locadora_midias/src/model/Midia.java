@@ -1,101 +1,90 @@
 package model;
-import java.io.*;
+
+import java.io.IOException;
 
 public abstract class Midia {
+    protected String caminho;
+    protected long tamanho;
+    protected String titulo;
+    protected int duracao;
+    protected String categoria;
 
-	private String titulo, categoria,nomeAarquivo;
-	private double duracao,tamanho;
-	File dados = new File("dados");
-	File arquivo;
+    public Midia(String caminho, long tamanho, String titulo, int duracao, String categoria) {
+        setCaminho(caminho);
+        setTamanho(tamanho);
+        setTitulo(titulo);
+        setDuracao(duracao);
+        setCategoria(categoria);
+    }
 
-	public Midia(String titulo, String categoria, int tamanhoArquivo ,double duracao,String nomeArquivo) throws IOException {
-		setTitulo(titulo);
-		setCategoria(categoria);
-		setDuracao(duracao);
-		setTamanho(tamanhoArquivo);
-		setNomeAarquivo(nomeArquivo);
-		
-		arquivo = new File (dados,getNomeAarquivo() + ".tpoo"); 
-		
-	}
-	public String getNomeAarquivo() {
-		return nomeAarquivo;
-	}
-	public void setNomeAarquivo(String nomeAarquivo) {
-		this.nomeAarquivo = nomeAarquivo;
-	}
-	public String getTitulo() {
-		return titulo;
-	}
-	
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
+    public abstract TipoMidia getTipo();
 
-	public String getCategoria() {
-		return categoria;
-	}
+    public abstract String atributosEspecificos();
+    
+    public abstract String dadoExtraCSV();
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
+    public String paraCSV() {
+        return getTipo() + ";" + caminho + ";" + tamanho + ";" + titulo + ";" +
+               duracao + ";" + categoria + ";" + dadoExtraCSV();
+    }
 
-	public double getDuracao() {
-		return duracao;
-	}
+    public static Midia fromCSV(String linha) {
+        try {
+            String[] p = linha.split(";", -1);
+            TipoMidia tipo = TipoMidia.valueOf(p[0]);
+            String caminho = p[1];
+            long tamanho = Long.parseLong(p[2]);
+            String titulo = p[3];
+            int duracao = Integer.parseInt(p[4]);
+            String categoria = p[5];
+            String extra = p.length > 6 ? p[6] : "";
 
-	public void setDuracao(double duracao) {
-		this.duracao = duracao;
-	}
+            switch (tipo) {
+                case FILME: return new Filme(caminho, tamanho, titulo, duracao, categoria, extra);
+                case MUSICA: return new Musica(caminho, tamanho, titulo, duracao, categoria, extra);
+                case LIVRO: return new Livro(caminho, tamanho, titulo, duracao, categoria, extra);
+                default: return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-	public double getTamanho() {
-		return tamanho;
-	}
+    // Getters e Setters
+    public String getCaminho() {
+        return caminho; 
+    }
+    public void setCaminho(String caminho) { 
+        this.caminho = caminho; 
+    }
+    
+    public String getTitulo() {
+        return titulo;
+    }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-	public void setTamanho(double tamanho) {
-		this.tamanho = tamanho;
-	}
+    public long getTamanho() {
+        return tamanho;
+    }
+    public void setTamanho(long tamanho) {
+        this.tamanho = tamanho;
+    }
 
-	public File getDados() {
-		return dados;
-	}
+    public int getDuracao() {
+        return duracao;
+    }
+    public void setDuracao(int duracao) {
+        this.duracao = duracao;
+    }
 
-	public void setDados(File dados) {
-		this.dados = dados;
-	}
+    public String getCategoria() {
+        return categoria;
+    }
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
-	public File getArquivo() {
-		return arquivo;
-	}
-
-	public void setArquivo(File arquivo) {
-		this.arquivo = arquivo;
-	}
-	
-	public void salvarMidia() {
-	    try {
-	        if (!dados.exists()) {
-	            dados.mkdir(); 
-	        }
-	        
-	        if (!arquivo.exists()) {
-	            arquivo.createNewFile();
-	        }
-
-	        try (PrintWriter out = new PrintWriter(new FileWriter(arquivo, true))) {
-	            out.println(mostrar());
-	            
-	        }
-
-	        System.out.println("Arquivo salvo em: " + arquivo.getAbsolutePath());
-
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
-
-	
-	
-
-	public abstract String mostrar();
 }

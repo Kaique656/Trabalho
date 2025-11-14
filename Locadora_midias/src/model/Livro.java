@@ -3,11 +3,10 @@ package model;
 import java.io.IOException;
 
 public class Livro extends Midia {
+    private String autores;
 
-	private String autores;
-	
-	public Livro(String titulo, String categoria, double duracao,String autores,String nomeArquivo, int tamanho ) throws IOException {
-		super(titulo, categoria, tamanho ,duracao,nomeArquivo);
+    public Livro(String caminho, long tamanho, String titulo, int duracao, String categoria, String autores) {
+        super(caminho, tamanho, titulo, duracao, categoria);
 		setAutores(autores);
 	}
 	
@@ -18,13 +17,16 @@ public class Livro extends Midia {
 		this.autores = autores;
 	}
 	
-	@Override
-	public String mostrar() {
-	    return "Título: " + getTitulo() + ", Categoria: " + getCategoria() +
-	           ", Páginas: " + getDuracao() + ", Autor: " + getAutores();
-	}
+	@Override public TipoMidia getTipo() { return TipoMidia.LIVRO; }
 
+    @Override
+    public String atributosEspecificos() {
+        return "Título: " + titulo +
+               "\nAutores: " + autores +
+               "\nPáginas: " + duracao +
+               "\nCategoria: " + categoria +
+               "\nCaminho: " + caminho;
+    }
 
-	
-
+    @Override public String dadoExtraCSV() { return autores == null ? "" : autores; }
 }

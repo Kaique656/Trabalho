@@ -6,8 +6,8 @@ public class Filme extends Midia {
 	
 	private String idioma;
 
-	public Filme(String titulo, String categoria, double duracao, String idioma,String nomeArquivo, int tamanho) throws IOException {
-		super(titulo, categoria,tamanho ,duracao,nomeArquivo);
+	public Filme(String caminho, long tamanho, String titulo, int duracao, String categoria, String idiomaAudio) {
+        super(caminho, tamanho, titulo, duracao, categoria);
 		setIdioma(idioma);
 	}
 	
@@ -18,10 +18,18 @@ public class Filme extends Midia {
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
 	}
+
+	@Override public TipoMidia getTipo() { return TipoMidia.FILME; }
 	
 	@Override
-	public String mostrar() {
-		return "Titulo: " + getTitulo() + " Categoria: " + getCategoria() + "duracao: " + getDuracao() + "Minutos " + "idioma: " + getIdioma();
-	}
+    public String atributosEspecificos() {
+        return "Título: " + titulo +
+               "\nIdioma do áudio: " + idioma +
+               "\nDuração (minutos): " + duracao +
+               "\nCategoria: " + categoria +
+               "\nCaminho: " + caminho;
+    }
+
+    @Override public String dadoExtraCSV() { return idioma == null ? "" : idioma; }
 
 }
