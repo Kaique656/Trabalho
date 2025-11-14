@@ -1,9 +1,7 @@
 package repository;
 
-import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,27 +12,25 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 import model.*;
 
 public class Controladora {
 	
-	List<Pasta> pasta;
-	Pasta p;
+	List<Midia> pasta;
+	Midia p;
 	
 	public Controladora () {
-		pasta = new ArrayList<Pasta>();
+		pasta = new ArrayList<Midia>();
 	}
 	
-	public void addMidia (Pasta pasta) { 
+	public void addMidia (Midia pasta) { 
 		this.pasta.add(pasta);
 	}
 	
 	public void removerMidia (String midia) {
 		
-		for (Pasta pa : pasta) {
+		for (Midia pa : pasta) {
 			
 			if (pa.getTitulo().equalsIgnoreCase(midia)) {
 				pasta.remove(midia);

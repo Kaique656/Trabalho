@@ -2,7 +2,7 @@ package model;
 
 import java.io.IOException;
 
-public class Livro extends Pasta {
+public class Livro extends Midia {
 
 	private String autores;
 	

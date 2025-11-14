@@ -2,7 +2,7 @@ package model;
 
 import java.io.IOException;
 
-public class Musica extends Pasta {
+public class Musica extends Midia {
 	
 	private String artista;
 

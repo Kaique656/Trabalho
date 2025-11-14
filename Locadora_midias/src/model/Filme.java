@@ -2,7 +2,7 @@ package model;
 
 import java.io.IOException;
 
-public class Filme extends Pasta {
+public class Filme extends Midia {
 	
 	private String idioma;
 

@@ -1,14 +1,14 @@
 package model;
 import java.io.*;
 
-public abstract class Pasta {
+public abstract class Midia {
 
 	private String titulo, categoria,nomeAarquivo;
 	private double duracao,tamanho;
 	File dados = new File("dados");
 	File arquivo;
 
-	public Pasta(String titulo, String categoria, int tamanhoArquivo ,double duracao,String nomeArquivo) throws IOException {
+	public Midia(String titulo, String categoria, int tamanhoArquivo ,double duracao,String nomeArquivo) throws IOException {
 		setTitulo(titulo);
 		setCategoria(categoria);
 		setDuracao(duracao);
