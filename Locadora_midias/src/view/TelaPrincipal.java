@@ -13,13 +13,14 @@ import java.util.List;
  * Interage com ControleMidia e PersistenciaCSV, e grava arquivos .tpoo em ./dados/
  */
 public class TelaPrincipal extends JFrame {
+
     private Controladora controle;
     private JTable tabela;
     private TabelaMidias modeloTabela;
 
     private JComboBox<String> filtroTipo;
     private JComboBox<String> filtroCategoria;
-    private JCheckBox ordenarPorNome;
+    private JComboBox<String> filtroOrdenacao;
 
     public TelaPrincipal() {
         super("Gerenciador de Mídias");
@@ -47,12 +48,13 @@ public class TelaPrincipal extends JFrame {
 
         filtroTipo = new JComboBox<>(new String[]{"Todos","FILME","MUSICA","LIVRO"});
         filtroCategoria = new JComboBox<>(new String[]{"Todas","Ação","Aventura","Rock","Drama","Pop"});
-        ordenarPorNome = new JCheckBox("Ordenar por nome");
+        filtroOrdenacao = new JComboBox<>(new String[]{"Nome", "Duração", "Tamanho"});
 
         JPanel topo = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topo.add(new JLabel("Tipo:")); topo.add(filtroTipo);
         topo.add(new JLabel("Categoria:")); topo.add(filtroCategoria);
-        topo.add(ordenarPorNome);
+        topo.add(new JLabel("Ordenar por:"));
+        topo.add(filtroOrdenacao);
 
         JPanel botoes = new JPanel();
         botoes.add(btnAdicionar); botoes.add(btnEditar); botoes.add(btnRemover); botoes.add(btnMover); botoes.add(btnRenomear); botoes.add(btnAtributos); botoes.add(btnSalvar);
@@ -71,16 +73,33 @@ public class TelaPrincipal extends JFrame {
 
         filtroTipo.addActionListener(e -> atualizarTabela());
         filtroCategoria.addActionListener(e -> atualizarTabela());
-        ordenarPorNome.addActionListener(e -> atualizarTabela());
+        filtroOrdenacao.addActionListener(e -> atualizarTabela());
+
     }
 
     private void atualizarTabela() {
-        String tipo = (String) filtroTipo.getSelectedItem();
-        String categoria = (String) filtroCategoria.getSelectedItem();
-        boolean ordenar = ordenarPorNome.isSelected();
-        List<Midia> lista = controle.filtrar(tipo, categoria, ordenar);
-        modeloTabela.setMidias(lista);
+    String tipo = (String) filtroTipo.getSelectedItem();
+    String categoria = (String) filtroCategoria.getSelectedItem();
+
+    Controladora.TipoOrdenacao ordenacao = Controladora.TipoOrdenacao.NOME;
+
+    switch (filtroOrdenacao.getSelectedItem().toString()) {
+        case "Duração":
+            ordenacao = Controladora.TipoOrdenacao.DURACAO;
+            break;
+        case "Tamanho":
+            ordenacao = Controladora.TipoOrdenacao.TAMANHO;
+            break;
+        case "Nome":
+        default:
+            ordenacao = Controladora.TipoOrdenacao.NOME;
+            break;
     }
+
+    List<Midia> lista = controle.filtrar(tipo, categoria, ordenacao);
+    modeloTabela.setMidias(lista);
+}
+
 
     private void adicionarMidia() {
         DialogoMidia d = new DialogoMidia(this, null);
